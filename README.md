@@ -30,6 +30,9 @@ testizy.suite('Example test suite', (suite) => {
 testizy.run(null, testizy.renderTest);
 ```
 
+* Live demo can be found [here](https://ronenness.github.io/Testizy/examples_browser.html).
+* Full API docs can be found [here](https://ronenness.github.io/Testizy/api.html).
+
 ## Why?
 
 There are plenty of JavaScript test frameworks out there, from *mocha* to *jest*. They are all nice, so why making another one?
