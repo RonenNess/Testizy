@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Testizy Template</title>
+    <meta name="description" content="A template HTML for Testizy.">
+    <meta name="author" content="Ronen Ness">
+    <script src="testizy.js"></script>
+  </head>
+  <body style="padding:2em">
+
+    <script>
+      // init testizy
+      let testizy = new Testizy();
+      testizy.injectDefaultCss();
+
+      // create a basic test suite with setup, teardown and a single case
+      testizy.suite('Example test suite', (suite) => {
+
+        suite.setup(() => {
+            window._setupCheck = true;
+        });
+
+        suite.case('make sure the setup code executed.', (assert) => {
+            assert.true(window._setupCheck);
+        });
+
+        suite.teardown(() => {
+            delete window._setupCheck;
+        });
+
+      }, {description: "This is just an example test suite with setup, a single test case, and teardown code."});
+
+      // run tests
+      testizy.run(null, testizy.renderTest);
+    </script>
+
+  </body>
+</html>

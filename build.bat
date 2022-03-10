@@ -1,0 +1,1 @@
+browserify lib/index.js --s Testizy --outfile dist/testizy.js & uglifyjs --keep-fnames -o dist/testizy.min.js dist/testizy.js

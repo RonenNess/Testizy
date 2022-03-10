@@ -1,0 +1,1 @@
+jsdoc2md -f dist\\testizy.js > api.md

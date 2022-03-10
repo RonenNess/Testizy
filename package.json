@@ -1,0 +1,30 @@
+{
+  "name": "testizy",
+  "version": "1.0.0",
+  "description": "A simple, modern, pure JavaScript testing framework.",
+  "main": "lib/index.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonenNess/Testizy.git"
+  },
+  "keywords": [
+    "test",
+    "unit test",
+    "testing",
+    "assert",
+    "ut"
+  ],
+  "author": "Ronen Ness",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RonenNess/Testizy/issues"
+  },
+  "homepage": "https://github.com/RonenNess/Testizy#readme"
+}
