@@ -1,5 +1,3 @@
-# Testizy API
-
 ## Classes
 
 <dl>
@@ -22,9 +20,7 @@ That unique exception is than caught by the test suite to mark the test as a fai
 <a name="Assert"></a>
 
 ## Assert
-Assert class - provide the testing methods.
-This class implements a set of comparison / testing methods, that raise `TestFailedException` exception if condition is not met.
-That unique exception is than caught by the test suite to mark the test as a failure.
+Assert class - provide the testing methods.This class implements a set of comparison / testing methods, that raise `TestFailedException` exception if condition is not met.That unique exception is than caught by the test suite to mark the test as a failure.
 
 **Kind**: global class  
 
@@ -37,17 +33,17 @@ That unique exception is than caught by the test suite to mark the test as a fai
     * [.true(actual, reason)](#Assert+true)
     * [.false(actual, reason)](#Assert+false)
     * [.is(actual, expected, reason)](#Assert+is)
+    * [.isNot(actual, expected, reason)](#Assert+isNot)
     * [.except(method, errorType, reason)](#Assert+except)
     * [.empty(actual, reason)](#Assert+empty)
     * [.notEmpty(actual, reason)](#Assert+notEmpty)
     * [.instanceOf(actual, type, reason)](#Assert+instanceOf)
+    * [.wait(timeMs, comment)](#Assert+wait)
 
 <a name="Assert+equals"></a>
 
 ### assert.equals(actual, expected, reason)
-Perform strict equals comparison.
-Handle all basic types (numbers, boolean, undefined, dates, array, dictionary, etc.) and perform recursive checks.
-If objects implement 'equals' method, will use it.
+Perform strict equals comparison.Handle all basic types (numbers, boolean, undefined, dates, array, dictionary, etc.) and perform recursive checks.If objects implement 'equals' method, will use it.
 
 **Kind**: instance method of [<code>Assert</code>](#Assert)  
 
@@ -60,9 +56,7 @@ If objects implement 'equals' method, will use it.
 <a name="Assert+notEquals"></a>
 
 ### assert.notEquals(actual, expected, reason)
-Perform strict not-equals comparison.
-Handle all basic types (numbers, boolean, undefined, dates, array, dictionary, etc.) and perform recursive checks.
-If objects implement 'equals' method, will use it.
+Perform strict not-equals comparison.Handle all basic types (numbers, boolean, undefined, dates, array, dictionary, etc.) and perform recursive checks.If objects implement 'equals' method, will use it.
 
 **Kind**: instance method of [<code>Assert</code>](#Assert)  
 
@@ -146,6 +140,19 @@ Check if values are the same using Object.is().
 | expected | <code>\*</code> | Expected value. |
 | reason | <code>String</code> | Optional error reason. |
 
+<a name="Assert+isNot"></a>
+
+### assert.isNot(actual, expected, reason)
+Check if values are not the same using !Object.is().
+
+**Kind**: instance method of [<code>Assert</code>](#Assert)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| actual | <code>\*</code> | Actual value to check. |
+| expected | <code>\*</code> | Expected value. |
+| reason | <code>String</code> | Optional error reason. |
+
 <a name="Assert+except"></a>
 
 ### assert.except(method, errorType, reason)
@@ -162,8 +169,7 @@ Call a given method and expect a given exception (or any if 'errorType' is not d
 <a name="Assert+empty"></a>
 
 ### assert.empty(actual, reason)
-Check if a value is not null / undefined, but is empty.
-Can handle any object that has 'length' or 'size', or return a valid value from Object.keys() or Object.entries().
+Check if a value is not null / undefined, but is empty.Can handle any object that has 'length' or 'size', or return a valid value from Object.keys() or Object.entries().
 
 **Kind**: instance method of [<code>Assert</code>](#Assert)  
 
@@ -175,8 +181,7 @@ Can handle any object that has 'length' or 'size', or return a valid value from 
 <a name="Assert+notEmpty"></a>
 
 ### assert.notEmpty(actual, reason)
-Check if a value is not null / undefined, and is not empty.
-Can handle any object that has 'length' or 'size', or return a valid value from Object.keys() or Object.entries().
+Check if a value is not null / undefined, and is not empty.Can handle any object that has 'length' or 'size', or return a valid value from Object.keys() or Object.entries().
 
 **Kind**: instance method of [<code>Assert</code>](#Assert)  
 
@@ -198,6 +203,22 @@ Check if value is an instance of type.
 | type | <code>\*</code> | Object to check if value is instance of. |
 | reason | <code>String</code> | Optional error reason. |
 
+<a name="Assert+wait"></a>
+
+### assert.wait(timeMs, comment)
+Create a promise and resolve it after given time, used to create sleeping time in test cases.
+
+**Kind**: instance method of [<code>Assert</code>](#Assert)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| timeMs | <code>Number</code> | Time to sleep, in ms. |
+| comment | <code>String</code> | Optional waiting comment. |
+
+**Example**  
+```js
+await assert.sleep(1000, 'Wait for one second.');
+```
 <a name="TestResult"></a>
 
 ## TestResult
@@ -314,6 +335,7 @@ Represent a test suite.
     * [.case(name, method, params)](#TestSuite+case)
     * [.setup(method, timeout)](#TestSuite+setup)
     * [.teardown(method, timeout)](#TestSuite+teardown)
+    * [.wait(time, reason)](#TestSuite+wait)
     * [.run()](#TestSuite+run) ⇒ [<code>Promise.&lt;TestResult&gt;</code>](#TestResult)
 
 <a name="new_TestSuite_new"></a>
@@ -377,6 +399,18 @@ Set a setup method to run after tests.
 | method | <code>function</code> | Teardown function to run after tests. |
 | timeout | <code>Number</code> | Timeout for teardown code, in ms (only for async code). Defaults to 10000. |
 
+<a name="TestSuite+wait"></a>
+
+### testSuite.wait(time, reason)
+Create an artifical delay between test cases.This will generate a "test case" that just waits for the given time.
+
+**Kind**: instance method of [<code>TestSuite</code>](#TestSuite)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| time | <code>Number</code> | How long to wait, in milliseconds. |
+| reason | <code>String</code> | Waiting reason, will appear as case name. |
+
 <a name="TestSuite+run"></a>
 
 ### testSuite.run() ⇒ [<code>Promise.&lt;TestResult&gt;</code>](#TestResult)
@@ -413,18 +447,7 @@ Create the tests engine.
 
 **Example**  
 ```js
-// create the tests suite.
-let testizy = new Testizy();
-
-// define a test suite for arithmetic operators.
-testizy.suite('Arithmetics', (suite) => {
-  suite.case('1 + 1 = 2', (assert) => {
-     assert.equals(1 + 1, 2);
-  });
-});
-
-// run all tests and render them
-testizy.run(null, testizy.renderTest);
+// create the tests suite.let testizy = new Testizy();// define a test suite for arithmetic operators.testizy.suite('Arithmetics', (suite) => {  suite.case('1 + 1 = 2', (assert) => {     assert.equals(1 + 1, 2);  });});// run all tests and render themtestizy.run(null, testizy.renderTest);
 ```
 <a name="Testizy+suite"></a>
 

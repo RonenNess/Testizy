@@ -1,6 +1,6 @@
 {
   "name": "testizy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple, modern, pure JavaScript testing framework.",
   "main": "lib/index.js",
   "directories": {

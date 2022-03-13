@@ -127,6 +127,20 @@ class Assert
     }
 
     /**
+     * Check if values are not the same using !Object.is().
+     * @param {*} actual Actual value to check.
+     * @param {*} expected Expected value.
+     * @param {String} reason Optional error reason.
+     */
+    isNot(actual, expected, reason)
+    {
+        if (Object.is(actual, expected)) {
+            reason = reason || `Object.is(${repr(actual)}, ${repr(expected)}) is true`;
+            throw new TestFailedException(reason);
+        }
+    }
+    
+    /**
      * Call a given method and expect a given exception (or any if 'errorType' is not defined).
      * @param {*} method Method to call and expect exception from.
      * @param {*} errorType Optional error type to except (if not defined, will except any).
@@ -264,6 +278,20 @@ class Assert
             reason = reason || `${repr(actual)} is not instanceof ${type.name || repr(type)}`;
             throw new TestFailedException(reason);
         }
+    }
+
+    /**
+     * Create a promise and resolve it after given time, used to create sleeping time in test cases.
+     * @example
+     * await assert.sleep(1000, 'Wait for one second.');
+     * @param {Number} timeMs Time to sleep, in ms.
+     * @param {String} comment Optional waiting comment.
+     */
+    wait(timeMs, comment)
+    {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, timeMs);
+        });
     }
 }
 
@@ -697,6 +725,23 @@ class TestSuite
     {
         this._teardown = {method: method, params: {timeout: timeout || 10000}};
     }
+
+    /**
+     * Create an artifical delay between test cases.
+     * This will generate a "test case" that just waits for the given time.
+     * @param {Number} time How long to wait, in milliseconds.
+     * @param {String} reason Waiting reason, will appear as case name.
+     */
+    wait(time, reason) 
+    {
+        this.case('[wait] ' + reason, (assert) => 
+        {
+            return new Promise((resolve, reject) => 
+            {
+                setTimeout(resolve, time);
+            });
+        }, {timeout: time + 1000});
+    }
     
     /**
      * Run this test suite.
@@ -1044,7 +1089,7 @@ Testizy.Assert = Assert;
 Testizy.TestFailedException = TestFailedException;
 
 // set version
-Testizy.version = '1.0.0';
+Testizy.version = '1.0.1';
 
 
 // null logger to hide output

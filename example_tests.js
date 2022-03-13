@@ -564,6 +564,53 @@ testizy.suite('Is - fail tests (should be errors!)', (suite) => {
 }, {description: "This test suite checks assert.is(), all tests should fail."});
 
 
+// define a test suite for is that supposed to fail.
+testizy.suite('Is Not - ok tests', (suite) => {
+
+    suite.case('isNot(0, 1)', (assert) => {
+        assert.isNot(0, 1);
+    });
+
+    suite.case('isNot("foo", "bar")', (assert) => {
+        assert.isNot("foo", "bar");
+    });
+
+    suite.case('isNot(a, b)', (assert) => {
+        let a = {1:2};
+        let b = {1:2};
+        assert.isNot(a, b);
+    });
+
+    suite.case('isNot(NaN, 1)', (assert) => {
+        assert.isNot(NaN, 1);
+    });
+
+}, {description: "This test suite checks assert.isNot(), all tests should pass."});
+
+
+// define a test suite for is that supposed to work.
+testizy.suite('Is Not - fail tests (should be errors!)', (suite) => {
+
+    suite.case('(should fail) isNot(0, 0)', (assert) => {
+        assert.isNot(0, 0);
+    });
+
+    suite.case('(should fail) isNot("foo", "foo")', (assert) => {
+        assert.isNot("foo", "foo");
+    });
+
+    suite.case('(should fail) isNot(a, a)', (assert) => {
+        let a = {1:2};
+        assert.isNot(a, a);
+    });
+
+    suite.case('(should fail) isNot(NaN, 0/0)', (assert) => {
+        assert.isNot(NaN, 0/0);
+    });
+
+}, {description: "This test suite checks assert.isNot(), all tests should fail."});
+
+
 // define a test suite for empty that supposed to work.
 testizy.suite('Empty - ok tests', (suite) => {
 

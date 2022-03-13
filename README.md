@@ -251,6 +251,16 @@ suite.case('some async test..', (assert) => {
 
 Note the additional `timeout` option; If your returned promise is not resolved within 1000ms, the test will fail on timeout.
 
+### Wait
+
+You can define a pseudo-case that only creates a waiting time between test cases. For example if you have some cleanup code that happens every few seconds and you want to make sure its called between two cases, you can use this trick:
+
+```js
+suite.wait(1000, 'Wait for one second between tests.');
+```
+
+Note that this fake case will appear in the test results with the '[wait]' prefix.
+
 ## Assert
 
 `Assert` is the object every test case get as an argument, and used to perform the test checks themselves. 
@@ -466,6 +476,22 @@ assert.is(0, 1);
 assert.is("foo", "bar");
 ```
 
+### Assert.isNot(actualValue, expectedValue, optionalMessage)
+
+Performs an `Object.is()` check between actual and expected values, but expect values to *not* be the same.
+
+Usage example:
+
+```js
+// these will not fail the test
+assert.isNot(0, 1);
+assert.isNot("foo", "bar");
+
+// these will fail the test
+assert.isNot(0, 0);
+assert.isNot(NaN, 0/0);
+```
+
 ### Assert.except(method, optionalErrorType, optionalMessage)
 
 Execute a method and expect it to throw an exception. 
@@ -478,6 +504,18 @@ assert.except(() => {throw new MyCustomError("test");}, MyCustomError);
 // these will fail the test (no exception or wrong type is thrown)
 assert.except(() => {});
 assert.except(() => {throw new Error("test");}, MyCustomError);
+```
+
+
+### Assert.wait(time, comment)
+
+Not really a check, but a helper method to wait before proceeding with test. Generate a `Promise` and resolve it after given time.
+
+Usage example:
+
+```js
+// wait for 1000 ms (test case is async)
+await assert.sleep(1000, 'Wait for one second.');
 ```
 
 
@@ -565,6 +603,14 @@ testizy.run(null, testizy.logTest);
 ```
 
 The second param in `run()` accept a callback method to invoke on any test suite that finishes. `testizy.logTest` is a method to render a single test result, that have a signature matching the one expected by `run()`.
+
+# Changes
+
+## 1.0.1
+
+- Added `Assert.isNot()`.
+- Added `Assert.wait()`.
+- Added `TestSuite.Wait()`.
 
 # License
 
